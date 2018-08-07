@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <meta charset="utf-8">
+    <title>Learn-o-matic</title>
+    <!-- Code highlighter -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-dark.min.css">
+    <!-- Responsive -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!-- JavaScript for Bootstrap -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!-- I'll only use Bootstrap for icons -->
+    <!-- Custom font -->
+    <link href='https://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet'>
+    <!-- Other font -->
+    <link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet">
+    <style>
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Ubuntu;
+}
+.loader{
+    position: fixed;
+    z-index: 5;
+    height: 100%;
+    width: 100%;
+    background: teal;
+    text-align: center;
+}
+.app-name{
+    position: relative;
+    color: white;
+    font-size: 40px;
+    top: 160px;
+    display: none;
+}
+.info{
+    position: fixed;
+    z-index: 5;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(20, 20, 20, 0.5);
+    display: none;
+}
+.info-section{
+    position: relative;
+    height: 60%;
+    width: 90%;
+    background-color: gainsboro;
+    border: 1px solid #333;
+    padding: 10px 20px;
+    margin: 80px auto;
+}
+.info-section > ul{
+    padding-left: 0;
+    list-style-type: none;
+}
+.close-info{
+    font-size: 25px;
+    float: right;
+    cursor: hand;
+}
+.info-title{
+    font-size: 25px;
+    margin-top: 30px;
+    padding-bottom: 10px;
+    font-weight: bold;
+    border-bottom: 1px solid silver;
+}
+*:focus{
+    outline: none;
+}
+/*Header section*/
+header{
+    position: fixed;
+    z-index: 2;
+    height: 60px;
+    width: 100%;
+    /*Night mode color
+    background-color: rgb(39, 50, 54);
+    */
+    background-color: teal;
+    color: white;
+}
+header span:nth-child(1){
+    font-size: 20px;
+    line-height: 60px;
+    margin-left: 15px;
+    transition: linear 400ms;
+    cursor: hand;
+}
+header span:nth-child(1):hover{
+    color: gold;
+}
+header span:nth-child(2){
+    font-size: 20px;
+    line-height: 60px;
+    cursor: hand;
+    margin-left: 10px;
+}
+header span:nth-child(3){
+    float: right;
+    margin-right: 15px;
+    font-size: 25px;
+    line-height: 60px;
+    cursor: hand;
+    transition: ease-in 300ms;
+}
+header span:nth-child(3):hover{
+    color: gold;
+}
+/*Side menu section*/
+aside{
+    position: fixed;
+    top: 0;
+    z-index: 3;
+    height: 100%;
+    width: 0px;
+    background-color: #006666;
+    color: white;
+    white-space: nowrap;
+    overflow-x: auto;
+}
+aside > *{
+    display: none;
+}
+aside ul{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+aside li{
+    padding: 10px 0 10px 10px;
+    border-bottom: 1px solid gainsboro;
+    cursor: hand;
+    transition: ease-in 300ms;
+}
+aside li span{
+    padding-right: 10px;
+    font-size: 20px;
+}
+aside li:nth-child(1){
+    float: right;
+    padding: 0;
+    margin-right: 10px;
+    font-size: 25px;
+    cursor: hand;
+}
+aside li:nth-child(1):hover{
+    color: gold;
+    transition: ease-in 500ms;
+}
+aside li:nth-child(2){
+    font-size: 15px;
+}
+aside li:nth-child(1), li:nth-child(2){
+    border-bottom: 0;
+    text-align: center;
+}
+aside li:nth-child(3){
+    margin-top: 50px;
+}
+aside li:last-child{
+    border-bottom: 0;
+}
+aside li:not(:nth-child(1)):not(:nth-child(2)):hover{
+    border-left: 5px solid #333;
+    color: gold;
+}
+/*Main content section*/
+main{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    padding-top: 60px;
+    padding-bottom: 20px;
+    margin: 0;
+    background: gainsboro;
+    background-attachment: fixed;
+    color: #333;
+    white-space: nowrap;
+    overflow-x: auto;
+}
+main p{
+    margin-top: 10px;
+    font-size: 25px;
+    font-weight: bold;
+    text-align: center;
+}
+main table{
+    margin: 0 auto;
+    width: 95%;
+    background-color: #ddd;
+}
+main table td{
+    width: 50%;
+    padding: 5px 15px;
+}
+main table, main table td{
+    border: 1px solid silver;
+    border-radius: 2px;
+}
+main table input[type=number]{
+    height: 30px;
+    width: 50%;
+    margin: 0;
+    padding: 5px 15px;
+    float: left;
+    border: 1px solid silver;
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+    background-color: #eee;
+    border-right: 0;
+    text-align: right;
+}
+main table select{
+    height: 30px;
+    width: 50%;
+    margin: 0;
+    padding: 0 10px;
+    float: left;
+    border: 1px solid silver;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+    border-left: 1px solid silver;
+    background-color: #eee;
+}
+main table td:first-child{
+    text-align: right;
+}
+table tr:not(:first-child) > td:first-child{
+    font-weight: bold;
+}
+main table tr:hover{
+    background-color: #ccc;
+    transition: ease-in-out 200ms;
+}
+.mass-section, .time-section, .temp-section, .data-section{
+    display: none;
+}
+#intro {
+    background-color: #06d1ef;
+    white-space: pre-wrap;
+    font-family: 'Verala Round';
+}
+    </style>
+    </head>
+    <body>
+        <section class="loader">
+            <span class="app-name">Brandon's <br /> Learn-o-matic</span>
+        </section>
+        <section class="info">
+            <section class="info-section">
+                <span class="close-info">&times;</span>
+                <p class="info-title">Update Log</p>
+                <ul>
+                    <li>Aug 6, 2018
+                        <ul>
+                            <li>Started making it.</li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+        </section>
+        <header>
+            <span class="menu glyphicon glyphicon-menu-hamburger"></span>
+            <span>Learn-o-matic</span>
+            <span class="glyphicon glyphicon-info-sign"></span>
+        </header>
+        <aside>
+            <ul>
+                <li class="close-btn">&times;</li>
+                <li>Select Language</li>
+                <li class="length-link">&nbsp; HTML</li>
+                <li class="mass-link">&nbsp; CSS</li>
+                <li class="time-link">&nbsp; JS</li>
+                <li class="temp-link">&nbsp; SQL</li>
+            </ul>
+        </aside>
+        <!-- HTML section -->
+        <main class="length-section">
+            <p><span class="glyphicon glyphicon"></span> Hyper Text Markup Language</p>
+            <pre id="intro">HTML is a Hyper Text Markup Language. Its kind of like the base of an app or website. You use tags to create the code. Here's a simple code.
+            <code class="html">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+    &lt;head&gt;
+        &lt;title&gt;Learn-o-matic&lt;/title&gt;
+        &lt;meta charset="UTF-8"&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;h1&gt;Learn-o-matic&lt;/h1&gt;
+        &lt;p&gt;This is my Learn-o-matic&lt;/p&gt;
+    &lt;/body&gt;
+&lt;/html&gt;</code>
+Let me take you through that piece of code, step by step. The first line shows that you are using HTML5, the latest version of HTML. The second line is the html tag. Everything else besides the DOCTYPE tag is in the html tag. Next is the head tag. The head tag has links for your stylesheets, scripts for your external scripts, style tag for style (see 2nd tab for info on that), title, and charset="UTF-8", showing that you represent any character in the Unicode standard. You end the head tag. Then you start the body tag. Usually, everything in the body tag shows something, unless you hid it with JS or jQuery. (See 3rd tab for info on that). In the body tag, I put the biggest heading, h1, and have the text Learn-o-matic. There are 6 headings, h1 to h6. h1 is the biggest and h6 is the smallest. Then you end the body and html tags. Sometimes, you have a script tag to include JS right before the end of the body tag. (Also see 3rd tab for info on that).
+            </pre>
+        </main>
+        <!-- CSS section -->
+        <main class="mass-section">
+            <p><span class="glyphicon glyphicon"></span> Cascading Style Sheets</p>
+            <pre id="intro">
+CSS styles the HTML, such as changing the background-color, or padding. Here's an example that changes the background-color of the body.
+<code class="css">body {
+    background-color: blue;
+}
+</code>
+The first line targets the element it wants to put style on. The second line changes the background-color of that element to blue. Line 3 ends the style.
+There are also other stuff that you could do with CSS. Here's an example.
+<code class="css">div &lt; p {
+    color: green;
+}
+</code>
+That takes all the div elements, and then takes all the p elements in the div elements and colors them green. But there is also another thing called SCSS (Sassy CSS).
+<code class="scss">$cool-blue: #0099ff;
+body {
+    background-color: $cool-blue;
+}
+</code>
+That was using a variable. Cool, right? You could use variables over and over again. Here's an advanced example with using variables.
+<code class="scss">$cool-color: Aqua;
+$cool-font: Pacifico;
+div {
+    background-color: $cool-color;
+    p {
+        font-family: $cool-font;
+    }
+}
+</code>
+That was using nesting. That saves a lot of time and energy. This is the same using CSS.
+<code class="css">div {
+    background-color: Aqua;
+}
+div &lt; p {
+    font-family: Pacifico;
+}
+</code>
+SCSS is less time-consuming and way cooler. But you need to install SCSS on your computer and put it in a file ending with ".scss". Then put it in a stylesheet link. So if you're not on a computer, CSS is the way to go.
+            </pre>
+        </main>
+        <!-- JS section -->
+        <main class="time-section">
+            <p><span class="glyphicon glyphicon"></span> JavaScript</p>
+            <pre id="intro">
+They say JS is used to make the output interactive. But JS can do so many incredible things without the user interacting. First, I'm going to teach you about comments. JS has 3 types of comments. They have the single-line comment.
+<code class="js">// Some code...</code>
+The multi-line comment.
+<code class="js">/*
+Ta-da!
+Ta-da!
+*/
+</code>
+And the other cool comment. (Try it. It looks better on code editor).
+<code class="js">/**
+Ta-da!
+@What_code_is_about
+Details
+  *
+  *
+  *
+**/
+</code>
+Now I'm going to put JS in a script tag and change all p elements to say Hello!
+<code class="html">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+    &lt;head&gt;
+        &lt;title&gt;Learn-o-matic&lt;/title&gt;
+        &lt;meta charset="UTF-8"&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;p&gt;Learn-o-matic&lt;/p&gt;
+        &lt;script&gt;
+            document.getElementByTagName("p").textContent = "Hello!";
+        &lt;/script&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code>
+I could've added an id named learn to the element and did <code class="js">document.getElementById("learn").textContent = "Hello!";</code>
+But imagine if you could add html tags, also. Well, you can! Here's a div with the id div. I'm going to put an h1 in it.
+<code class="js">document.getElementById("div").innerHTML = "&lt;h1&gt;Oh yeah!&lt;/h1&gt;";</code>
+Pretty sweet, huh? But you can do that even faster.
+<code class="jquery">$("#div").html("&lt;h1&gt;Oh yeah!&lt;/h1&gt;");</code>
+Thats called jQuery!
+            </pre>
+        </main>
+        <!-- Temperature Converter -->
+        <main class="temp-section">
+            <p><span class="glyphicon glyphicon-fire"></span> Temperature Converter</p>
+            <table>
+                <tr>
+                    <td colspan="2">
+                        <input type="number" class="temp-input" min="0" />
+                        <select class="temp-select">
+                            <option>Celsius</option>
+                            <option>Fahrenheit</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="celVal">0</td>
+                    <td>Celsius (°C)</td>
+                </tr>
+                <tr>
+                    <td class="fahVal">32</td>
+                    <td>Fahrenheit (°F)</td>
+                </tr>
+            </table>
+        </main>
+        <!-- Data Storage Converter -->
+        <main class="data-section">
+            <p><span class="glyphicon glyphicon-floppy-disk"></span> Digital Storage Converter</p>
+            <table>
+                <tr>
+                    <td colspan="2">
+                        <input type="number" class="data-input" min="0" />
+                        <select class="data-select">
+                            <option>Byte</option>
+                            <option>Kilobyte</option>
+                            <option>Megabyte</option>
+                            <option>Gigabyte</option>
+                            <option>Terabyte</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="bVal">0</td>
+                    <td>Byte (b)</td>
+                </tr>
+                <tr>
+                    <td class="kbVal">0</td>
+                    <td>Kilobyte (Kb)</td>
+                </tr>
+                <tr>
+                    <td class="mbVal">0</td>
+                    <td>Megabyte (Mb)</td>
+                </tr>
+                <tr>
+                    <td class="gbVal">0</td>
+                    <td>Gigabyte (Gb)</td>
+                </tr>
+                <tr>
+                    <td class="tbVal">0</td>
+                    <td>Terabyte (Tb)</td>
+                </tr>
+            </table>
+        </main>
+        <script>
+            $(function(){
+    /*I forgot to put placeholder to each 
+      textbox after writing these lengthy code
+      so I will use jQuery to put
+      them once for all instead. XD
+    */
+    $('input[type=number]').attr('placeholder', '0');
+    //Loader animation
+    $('.app-name').fadeIn(3000);
+    $('.app-name').delay(500).fadeOut(1000);
+    $('.loader').delay(4000).fadeOut(2000);
+    //Update log
+    $('header span:nth-child(3)').on('click', function(){
+        $('.info').show();
+    });
+    $('.close-info').on('click', function(){
+        $('.info').hide();
+    });
+    //Open side menu
+    $('.menu').on('click', function(){
+        $('aside').animate({width: '150px'}, 300);
+        $('aside > *').delay(300).fadeIn(300);
+    });
+    //Close side menu
+    $('.close-btn').on('click', function(){
+        $('aside > *').fadeOut(300);
+        $('aside').delay(300).animate({width: '0px'}, 300);
+    });
+    //Length converter link
+    $('.length-link').on('click', function(){
+        $('main').fadeOut(500);
+        $('.length-section').delay(300).fadeIn(500);
+        //auto close side menu after clicking the link
+        $('aside > *').fadeOut(300);
+        $('aside').delay(300).animate({width: '0px'}, 300);
+    });
+    //Mass converter link
+    $('.mass-link').on('click', function(){
+        $('main').fadeOut(500);
+        $('.mass-section').delay(300).fadeIn(500);
+        $('aside > *').fadeOut(300);
+        $('aside').delay(300).animate({width: '0px'}, 300);
+    });
+    //Time converter link
+    $('.time-link').on('click', function(){
+        $('main').fadeOut(500);
+        $('.time-section').delay(300).fadeIn(500);
+        $('aside > *').fadeOut(300);
+        $('aside').delay(300).animate({width: '0px'}, 300);
+    });
+    //Temperature converter link
+    $('.temp-link').on('click', function(){
+        $('main').fadeOut(500);
+        $('.temp-section').delay(300).fadeIn(500);
+        $('aside > *').fadeOut(300);
+        $('aside').delay(300).animate({width: '0px'}, 300);
+    });
+    //Data storage converter link
+    $('.data-link').on('click', function(){
+        $('main').fadeOut(500);
+        $('.data-section').delay(300).fadeIn(500);
+        $('aside > *').fadeOut(300);
+        $('aside').delay(300).animate({width: '0px'}, 300);
+    });
+});
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+
+  <script>hljs.initHighlightingOnLoad();</script>
+    </body>
+</html>
